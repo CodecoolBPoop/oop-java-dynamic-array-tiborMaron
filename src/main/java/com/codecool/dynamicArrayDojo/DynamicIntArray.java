@@ -31,7 +31,7 @@ public class DynamicIntArray {
         this.arr = newArray;
     }
 
-    public void remove(int number) throws ArrayIndexOutOfBoundsException {
+    public void remove(int number)  {
         boolean contains = IntStream.of(arr).anyMatch(num -> num == number);
 
         if (contains) {
@@ -45,12 +45,21 @@ public class DynamicIntArray {
                 }
             }
         } else {
-            throw ArrayIndexOutOfBoundsException;
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
 
     public void insert(int index, int number) {
-
+        if (index >= size - 1) {
+            add(number);
+        } else {
+            this.size++;
+            int[] newArray = new int[size];
+            System.arraycopy(arr, 0, newArray, 0, index);
+            newArray[index] = number;
+            System.arraycopy(arr, index, newArray, index + 1, size - index -1);
+            this.arr = newArray;
+        }
     }
 }
 
